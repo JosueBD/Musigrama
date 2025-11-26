@@ -1,12 +1,12 @@
-// === ESTRUCTURA DE DATOS JSON ===
+// === ESTRUCTURA DE DATOS JSON (COORDENADAS Y PISTAS CORREGIDAS) ===
 const MUSIGRAMA_DATA = {
     "titulo": "Musigrama",
-    "ancho_tablero": 20,
-    "alto_tablero": 20,
+    "ancho_tablero": 20, // Máximo ancho de la cuadrícula
+    "alto_tablero": 20,  // Máximo alto de la cuadrícula
     "palabras": [
-        // Las pistas y coordenadas están definidas aquí
+        // NOTA: El cruce PENTAGRAMA/NEGRA ha sido corregido para usar el número de pista 2 y cruzar en la 'E'.
         { "id": 1, "respuesta": "PENTAGRAMA", "pista": "1. Conjunto de cinco líneas donde se escriben las notas.", "direccion": "horizontal", "inicio_x": 12, "inicio_y": 1, "numero_visual": 1 },
-        { "id": 2, "respuesta": "NEGRA", "pista": "2. Figura musical que dura un tiempo (4/4)", "direccion": "vertical", "inicio_x": 14, "inicio_y": 1, "numero_visual": 2 },
+        { "id": 2, "respuesta": "NEGRA", "pista": "2. Figura musical que dura un tiempo (4/4)", "direccion": "vertical", "inicio_x": 13, "inicio_y": 0, "numero_visual": 2 },
         { "id": 3, "respuesta": "BEMOL", "pista": "3. Signo que baja la nota medio tono", "direccion": "vertical", "inicio_x": 5, "inicio_y": 3, "numero_visual": 3 },
         { "id": 4, "respuesta": "METRONOMO", "pista": "4. Aparato utilizado para marcar el pulso y la velocidad", "direccion": "vertical", "inicio_x": 16, "inicio_y": 3, "numero_visual": 4 },
         { "id": 5, "respuesta": "SOL", "pista": "5. Clave que se ubica en la segunda línea del pentagrama", "direccion": "vertical", "inicio_x": 15, "inicio_y": 4, "numero_visual": 5 },
@@ -42,7 +42,7 @@ function initMusigrama() {
 // 1. Construye el mapa interno (qué letra va en cada coordenada)
 function buildBoardMap() {
     MUSIGRAMA_DATA.palabras.forEach(palabra => {
-        // Normaliza la respuesta (quita tildes) para la validación del usuario
+        // Normaliza la respuesta (quita tildes y convierte a mayúsculas) para la validación
         const respuesta = palabra.respuesta.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
         for (let i = 0; i < respuesta.length; i++) {
@@ -61,7 +61,10 @@ function buildBoardMap() {
             if (boardMap.has(key)) {
                 // Es un cruce
                 const cellData = boardMap.get(key);
-                cellData.clues.push(palabra.numero_visual);
+                // Evita duplicados en los números de pista si ya están
+                if (!cellData.clues.includes(palabra.numero_visual)) {
+                     cellData.clues.push(palabra.numero_visual);
+                }
             } else {
                 // Celda nueva
                 boardMap.set(key, { letter, clues: [palabra.numero_visual] });
@@ -125,13 +128,14 @@ function renderClues() {
         ul.style.paddingLeft = '0';
         arr.forEach(p => {
             const li = document.createElement('li');
-            li.innerHTML = `<strong>${p.numero_visual}.</strong> ${p.pista.substring(p.pista.indexOf('.') + 1).trim()}`;
+            // Muestra solo el número de pista y el texto
+            li.innerHTML = `<strong>${p.numero_visual}.</strong> ${p.pista.substring(p.pista.indexOf('.') + 1).trim()}`; 
             ul.appendChild(li);
         });
         container.appendChild(ul);
     };
     
-    // Limpia y añade las listas de pistas
+    // Limpia y añade las listas de pistas (ordenadas por número visual)
     horizontalCluesDiv.innerHTML = '<h2>Horizontales</h2>';
     verticalCluesDiv.innerHTML = '<h2>Verticales</h2>';
     
@@ -186,7 +190,8 @@ function checkVictory() {
     const allInputs = gridContainer.querySelectorAll('input');
     let completed = true;
     allInputs.forEach(input => {
-        if (input.value !== input.dataset.correctLetter) {
+        // Chequea si la celda tiene una letra y si es la correcta
+        if (input.value.length === 0 || input.value !== input.dataset.correctLetter) {
             completed = false;
         }
     });
