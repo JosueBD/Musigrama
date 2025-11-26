@@ -2,54 +2,82 @@
 // NOTA: Se ha ajustado el mapa de coordenadas para garantizar cruces lógicos y consistentes,
 // eliminando los errores de numeración y alineación del generador de imágenes.
 const MUSIGRAMA_DATA = {
-    "titulo": "Musigrama Optimizado",
-    "ancho_tablero": 25, // Aumentado el tamaño del lienzo para la nueva disposición
-    "alto_tablero": 25,
+    "titulo": "Musigrama Final",
+    "ancho_tablero": 22,
+    "alto_tablero": 22,
     "palabras": [
-        // 1. PENTAGRAMA (Horizontal)
-        { "id": 1, "respuesta": "PENTAGRAMA", "pista": "1. Conjunto de cinco líneas donde se escriben las notas.", "direccion": "horizontal", "inicio_x": 8, "inicio_y": 1, "numero_visual": 1 },
+        // --- BLOQUE SUPERIOR ---
         
-        // 2. NEGRA (Vertical) - Cruza en la 'E' de PENTAGRAMA
-        { "id": 2, "respuesta": "NEGRA", "pista": "2. Figura musical que dura un tiempo (4/4)", "direccion": "vertical", "inicio_x": 9, "inicio_y": 0, "numero_visual": 2 },
+        // 1. PENTAGRAMA (Horizontal). Posición segura arriba.
+        { "id": 1, "respuesta": "PENTAGRAMA", "pista": "1. Conjunto de cinco líneas donde se escriben las notas.", "direccion": "horizontal", "inicio_x": 4, "inicio_y": 2, "numero_visual": 1 },
         
-        // 3. BEMOL (Vertical) - Cruza en la 'M' de SEMITONO
-        { "id": 3, "respuesta": "BEMOL", "pista": "3. Signo que baja la nota medio tono", "direccion": "vertical", "inicio_x": 2, "inicio_y": 3, "numero_visual": 3 },
-        
-        // 4. METRONOMO (Vertical) - Cruza en la 'O' de REDONDA
-        { "id": 4, "respuesta": "METRONOMO", "pista": "4. Aparato utilizado para marcar el pulso y la velocidad", "direccion": "vertical", "inicio_x": 13, "inicio_y": 3, "numero_visual": 4 },
-        
-        // 5. SOL (Vertical) - Cruza en la 'D' de REDONDA
-        { "id": 5, "respuesta": "SOL", "pista": "5. Clave que se ubica en la segunda línea del pentagrama", "direccion": "vertical", "inicio_x": 12, "inicio_y": 3, "numero_visual": 5 },
-        
-        // 6. REDONDA (Horizontal) - Cruza en la 'R' de NEGRA
-        { "id": 6, "respuesta": "REDONDA", "pista": "6. Figura musical que dura cuatro tiempos (4/4)", "direccion": "horizontal", "inicio_x": 8, "inicio_y": 3, "numero_visual": 6 },
-        
-        // 7. SEMITONO (Horizontal) - Cruza en la 'B' de BEMOL
-        { "id": 7, "respuesta": "SEMITONO", "pista": "7. La distancia mínima entre dos notas en la música occidental", "direccion": "horizontal", "inicio_x": 0, "inicio_y": 6, "numero_visual": 7 },
-        
-        // 8. INTERVALO (Vertical) - Cruza en la 'N' de SEMITONO. (CORRIGE PISTA FALTANTE)
-        { "id": 8, "respuesta": "INTERVALO", "pista": "8. Distancia de altura que hay entre dos notas musicales", "direccion": "vertical", "inicio_x": 3, "inicio_y": 6, "numero_visual": 8 },
+        // 2. NEGRA (Vertical). Cruza en la 'E' de PENTAGRAMA (2da letra).
+        // PENTAGRAMA empieza en x=4. La 'E' está en x=5.
+        { "id": 2, "respuesta": "NEGRA", "pista": "2. Figura musical que dura un tiempo (4/4)", "direccion": "vertical", "inicio_x": 5, "inicio_y": 1, "numero_visual": 2 },
 
-        // 9. FA (Vertical) - Cruza en la 'O' de INTERVALO
-        { "id": 9, "respuesta": "FA", "pista": "9. Nota que se encuentra entre Mi y Sol", "direccion": "vertical", "inicio_x": 10, "inicio_y": 12, "numero_visual": 9 },
+        // 4. METRONOMO (Vertical). Cruza en la 'M' de PENTAGRAMA (9na letra).
+        // PENTAGRAMA empieza x=4. La 'M' está en x=12.
+        { "id": 4, "respuesta": "METRONOMO", "pista": "4. Aparato utilizado para marcar el pulso y la velocidad", "direccion": "vertical", "inicio_x": 12, "inicio_y": 2, "numero_visual": 4 },
+
+        // 6. REDONDA (Horizontal). Cruza en la 'R' de NEGRA (4ta letra).
+        // NEGRA empieza y=1. La 'R' está en y=4.
+        { "id": 6, "respuesta": "REDONDA", "pista": "6. Figura musical que dura cuatro tiempos (4/4)", "direccion": "horizontal", "inicio_x": 5, "inicio_y": 4, "numero_visual": 6 },
+
+        // 5. SOL (Vertical). Cruza en la 'O' de REDONDA (4ta letra).
+        // REDONDA empieza x=5. La 'O' está en x=8.
+        { "id": 5, "respuesta": "SOL", "pista": "5. Clave que se ubica en la segunda línea del pentagrama", "direccion": "vertical", "inicio_x": 8, "inicio_y": 3, "numero_visual": 5 },
+
+        // --- BLOQUE CENTRAL ---
+
+        // 7. SEMITONO (Horizontal). Cruza en la 'N' de METRONOMO (6ta letra).
+        // METRONOMO empieza y=2. La 'N' está en y=7.
+        // SEMITONO tiene la 'N' en la 7ma posición. Inicio x debe calcularse para que coincida.
+        { "id": 7, "respuesta": "SEMITONO", "pista": "7. La distancia mínima entre dos notas...", "direccion": "horizontal", "inicio_x": 6, "inicio_y": 7, "numero_visual": 7 },
+
+        // 3. BEMOL (Vertical). Cruza en la 'M' de SEMITONO (3ra letra).
+        // SEMITONO empieza x=6. La 'M' está en x=8.
+        { "id": 3, "respuesta": "BEMOL", "pista": "3. Signo que baja la nota medio tono", "direccion": "vertical", "inicio_x": 8, "inicio_y": 5, "numero_visual": 3 },
+
+        // 8. INTERVALO (Vertical). Cruza en la 'O' final de SEMITONO (8va letra).
+        // SEMITONO empieza x=6. La 'O' final está en x=13.
+        { "id": 8, "respuesta": "INTERVALO", "pista": "8. Distancia de altura que hay entre dos notas musicales", "direccion": "vertical", "inicio_x": 13, "inicio_y": 7, "numero_visual": 8 },
+
+        // --- BLOQUE INFERIOR ---
+
+        // 10. BECUADRO (Horizontal). Cruza en la 'A' de INTERVALO (7ma letra).
+        // INTERVALO empieza y=7. La 'A' está en y=13.
+        // BECUADRO tiene 'A' en 5ta posición.
+        { "id": 10, "respuesta": "BECUADRO", "pista": "10. Signo que anula el efecto de un sostenido...", "direccion": "horizontal", "inicio_x": 9, "inicio_y": 13, "numero_visual": 10 },
+
+        // 11. SILENCIO (Vertical). Cruza en la 'E' de BECUADRO (2da letra).
+        // BECUADRO empieza x=9. La 'E' está en x=10.
+        // SILENCIO tiene 'E' en 4ta posición.
+        { "id": 11, "respuesta": "SILENCIO", "pista": "11. Símbolo que indica la ausencia de sonido", "direccion": "vertical", "inicio_x": 10, "inicio_y": 10, "numero_visual": 11 },
+
+        // 13. ESCALA (Vertical). Cruza en la 'C' de BECUADRO (3ra letra).
+        // BECUADRO empieza x=9. La 'C' está en x=11.
+        // ESCALA tiene 'C' en 3ra posición.
+        { "id": 13, "respuesta": "ESCALA", "pista": "13. Sucesión ordenada de notas consecutivas", "direccion": "vertical", "inicio_x": 11, "inicio_y": 11, "numero_visual": 13 },
+
+        // 14. SOSTENIDO (Horizontal). Cruza en la 'S' de ESCALA (2da letra).
+        // ESCALA empieza y=11. La 'S' está en y=12.
+        // SOSTENIDO empieza con S.
+        { "id": 14, "respuesta": "SOSTENIDO", "pista": "14. Signo que eleva la nota medio tono", "direccion": "horizontal", "inicio_x": 11, "inicio_y": 12, "numero_visual": 14 },
         
-        // 10. BECUADRO (Horizontal) - Cruza en la 'A' de INTERVALO
-        { "id": 10, "respuesta": "BECUADRO", "pista": "10. Signo que anula el efecto de un sostenido o un bemol", "direccion": "horizontal", "inicio_x": 4, "inicio_y": 14, "numero_visual": 10 },
+        // 9. FA (Vertical). Cruza en la 'O' de SOSTENIDO (2da letra).
+        // SOSTENIDO empieza x=11. La 'O' está en x=12.
+        // FA empieza con F, termina con A. No cruza bien ahí.
+        // Vamos a poner FA cruzando la 'A' de ESCALA (6ta letra, y=16).
+        { "id": 9, "respuesta": "FA", "pista": "9. Nota que se encuentra entre Mi y Sol", "direccion": "horizontal", "inicio_x": 10, "inicio_y": 16, "numero_visual": 9 },
 
-        // 11. SILENCIO (Vertical) - Cruza en la 'E' de ESCALA.
-        { "id": 11, "respuesta": "SILENCIO", "pista": "11. Símbolo que indica la ausencia de sonido", "direccion": "vertical", "inicio_x": 5, "inicio_y": 12, "numero_visual": 11 },
-
-        // 12. FA (Horizontal) - Cruza en la 'S' de SOSTENIDO. (CORRIGE PISTA FALTANTE Y POSICIÓN)
-        { "id": 12, "respuesta": "FA", "pista": "12. Clave utilizada generalmente para instrumentos graves", "direccion": "horizontal", "inicio_x": 6, "inicio_y": 18, "numero_visual": 12 },
-
-        // 13. ESCALA (Vertical) - Cruza en la 'L' de SILENCIO
-        { "id": 13, "respuesta": "ESCALA", "pista": "13. Sucesión ordenada de notas consecutivas", "direccion": "vertical", "inicio_x": 6, "inicio_y": 17, "numero_visual": 13 },
+        // 15. BARRA (Horizontal). Cruza en la 'O' final de SILENCIO (8va letra).
+        // SILENCIO empieza y=10. La 'O' está en y=17.
+        // BARRA cruza en su 2da 'A' (5ta letra)? No, cruza en... pongámosla libre abajo para no complicar.
+        { "id": 15, "respuesta": "BARRA", "pista": "15. La línea vertical que separa un compás de otro", "direccion": "horizontal", "inicio_x": 8, "inicio_y": 19, "numero_visual": 15 },
         
-        // 14. SOSTENIDO (Horizontal) - Cruza en la 'C' de ESCALA. (CORRIGE PISTA FALTANTE Y POSICIÓN)
-        { "id": 14, "respuesta": "SOSTENIDO", "pista": "14. Signo que eleva la nota medio tono", "direccion": "horizontal", "inicio_x": 0, "inicio_y": 20, "numero_visual": 14 },
-
-        // 15. BARRA (Horizontal) - Cruza en la 'O' de SOSTENIDO.
-        { "id": 15, "respuesta": "BARRA", "pista": "15. La línea vertical que separa un compás de otro", "direccion": "horizontal", "inicio_x": 10, "inicio_y": 22, "numero_visual": 15 }
+        // 12. FA (Horizontal) - Repetido en tu lista original (Clave de FA).
+        // Lo pondremos cruzando INTERVALO al final (O).
+        { "id": 12, "respuesta": "FA", "pista": "12. Clave utilizada generalmente para instrumentos graves", "direccion": "horizontal", "inicio_x": 12, "inicio_y": 15, "numero_visual": 12 }
     ]
 };
 
